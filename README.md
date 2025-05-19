@@ -9,32 +9,50 @@ This repository provides a complete **end-to-end pipeline** for real-time vehicl
 ```
 vehicle_detection_project/
 │
-├── data/
+├── data/                     # Download manually from Roboflow
 │   ├── voc_format/            
 │   │   ├── train/             # Pascal VOC images + XML annotations for Faster R-CNN  
 │   │   └── valid/             
 │   └── yolo_format/           # YOLOv8–style images + .txt labels  
 │       ├── train/             
-│       ├── valid/             
-│       └── test/              
+│       └── valid/             
+│       └── data.yaml          
 │
+├── inputs/
+│   ├── 2252223-sd_960...mp4          # Raw traffic video input
+│   └── vecteezy_slow-mo...mp4        # Another test video
+
 ├── models/
 │   ├── best.pt                # Trained YOLOv8 weights  
 │   ├── faster_rcnn_final.pth  # Final Faster R-CNN weights  
 │   └── checkpoints/           # RCNN epoch‐by‐epoch checkpoints  
-│
-├── scripts/
-│   ├── train_yolov8.py        # YOLOv8 fine-tuning script  
-│   └── train_rcnn.py          # Faster R-CNN fine-tuning script  
-│
-├── notebooks/
-│   └── final_project.ipynb    # Jupyter notebook with full pipeline  
-│
+
 ├── outputs/
 │   ├── tracked_output.mp4     # Video with hybrid detection & tracking overlay  
 │   └── tracking_report.txt    # Summary report (total counts & lifespans)  
-│
+
+├── final_project.ipynb        # Jupyter notebook with full pipeline  
+├── .gitattributes             # Git LFS tracked files
+├── .gitignore                 # Ignored folders/files
 └── README.md                  # Project overview & instructions  
+```
+
+---
+
+## 📥 Dataset
+
+Due to GitHub file size limits, the dataset is **not included in this repo**.
+
+👉 **Download from Roboflow**:  
+[UA-DETRAC Dataset (10K)](https://universe.roboflow.com/rjacaac1/ua-detrac-dataset-10k)
+
+Then place them under:
+
+```
+data/voc_format/train
+data/voc_format/valid
+data/yolo_format/train
+data/yolo_format/valid
 ```
 
 ---
@@ -48,8 +66,7 @@ vehicle_detection_project/
 - **deep_sort_realtime**  
 - **tqdm**, **Pillow**, **numpy**
 
-Install dependencies:
-
+Install all dependencies:
 ```bash
 pip install torch torchvision ultralytics opencv-python deep_sort_realtime tqdm Pillow numpy
 ```
@@ -59,47 +76,46 @@ pip install torch torchvision ultralytics opencv-python deep_sort_realtime tqdm 
 ## 🚀 Usage
 
 1. **Prepare your data**  
-   - VOC-style images + XML under `data/voc_format/{train,valid}`  
-   - YOLO-style images + TXT under `data/yolo_format/{train,valid,test}`  
+   - VOC-style: `data/voc_format/{train,valid}`  
+   - YOLO-style: `data/yolo_format/{train,valid,data.yaml}`  
 
 2. **Train or skip**  
    - **YOLOv8:**  
      `python scripts/train_yolov8.py`  
-     Final weights → `models/best.pt`  
+     → Saves model to `models/best.pt`  
    - **Faster R-CNN:**  
      `python scripts/train_rcnn.py`  
-     Final weights → `models/faster_rcnn_final.pth` (checkpoints in `models/checkpoints/`)  
+     → Saves model to `models/faster_rcnn_final.pth`  
 
-3. **Explore in Notebook**  
-   Open `notebooks/final_project.ipynb` to follow step by step:
-   - Model loading  
-   - Conditional training  
-   - Hybrid detection & refinement  
-   - Tracking & logging  
-   - Visualization & metrics  
+3. **Run in Notebook**  
+   Open `final_project.ipynb` for:
+   - Hybrid model setup  
+   - Refinement logic  
+   - Object tracking  
+   - Metric logging  
+   - Final video/report generation  
 
-4. **Run full pipeline**  
-   `python scripts/run_hybrid_tracking.py`  
-   Outputs:  
-   - Overlay video → `outputs/tracked_output.mp4`  
-   - Text report → `outputs/tracking_report.txt`
+4. **Run entire pipeline as script** (if provided):
+   ```bash
+   python scripts/run_hybrid_tracking.py
+   ```
 
 ---
 
 ## 🎥 Output Video
 
-`outputs/tracked_output.mp4`
+Watch the result in `outputs/tracked_output.mp4`
 
 ---
 
 ## 📑 Tracking Report
 
-A human-readable summary saved in `outputs/tracking_report.txt`, for example:
+Check `outputs/tracking_report.txt` for a readable summary:
 
 ```
 === Tracking Report ===
 
-Video processed: inputs/traffic_video.mp4
+Video processed: inputs/2252223-sd_960...mp4
 Total frames: 1200
 
 BUS:
@@ -109,26 +125,21 @@ BUS:
 CAR:
   • Total unique seen : 58
   • Avg lifespan      : 60.8 frames
-
-TRUCK:
-  • Total unique seen : 15
-  • Avg lifespan      : 50.1 frames
-
-VAN:
-  • Total unique seen : 10
-  • Avg lifespan      : 40.5 frames
+...
 ```
 
 ---
 
 ## 🔧 Customization
 
-- **Thresholds:** Adjust `yolo_confirm_thresh`, `rcnn_conf_thresh`, NMS IoUs in the notebook  
-- **Tracker settings:** Modify `max_age`, `n_init` in the tracking section  
-- **Data paths:** Update variables in scripts/notebook  
+- **Thresholds**: Adjust YOLO/RCNN confidence & NMS thresholds  
+- **Tracker config**: Modify `max_age`, `n_init` in the tracker  
+- **Video input**: Add more videos to `inputs/` and change paths in the notebook  
 
 ---
 
 ## 📄 License & Acknowledgments
 
-This project is for academic and demonstration purposes. Adapt & extend as you wish—please cite any reused code or datasets. Enjoy your vehicle detection & tracking pipeline!
+This project is for academic and demonstration purposes. Please cite if you use the pretrained models, dataset, or pipeline.
+
+Enjoy building your vehicle detection & tracking system!
