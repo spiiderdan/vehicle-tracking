@@ -1,0 +1,21 @@
+=== Tracking Report ===
+
+Video processed: https://hls.ibb.gov.tr/tkm4/hls/19.stream/playlist.m3u8
+Total frames: 943
+
+BUS:
+  • Total unique seen : 5
+  • Avg lifespan      : 46.7 frames
+
+CAR:
+  • Total unique seen : 63
+  • Avg lifespan      : 120.9 frames
+
+TRUCK:
+  • Total unique seen : 4
+  • Avg lifespan      : 0.0 frames
+
+VAN:
+  • Total unique seen : 0
+  • Avg lifespan      : 0.0 frames
+
