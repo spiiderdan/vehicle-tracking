@@ -104,7 +104,7 @@ pip install torch torchvision ultralytics opencv-python deep_sort_realtime tqdm 
 
 ## 🎥 Output Video
 
-Watch the result in `outputs/tracked_output.mp4`
+![demo](https://github.com/user-attachments/assets/d315132d-decb-4c78-a9a8-9771b0b92343)
 
 ---
 
